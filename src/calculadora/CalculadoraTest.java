@@ -3,23 +3,35 @@ package calculadora;
 import static org.junit.Assert.*;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CalculadoraTest {
 	
-	Calculadora calc;
+	static Calculadora calc;
+	
+	@BeforeClass
+	public static void beforeClass() {
+		System.out.println("beforeClass()");
+		calc = new Calculadora();
+	}
 	
 	@Before
 	public void before() {
 		System.out.println("before()");
-		calc = new Calculadora();
+		calc.clear();
 	}
 	
 	@After
 	public void after() {
 		System.out.println("after()");
-		calc.clear();
+	}
+	
+	@AfterClass
+	public static void afterClass() {
+		System.out.println("afterClass()");
 	}
 
 	@Test
@@ -51,6 +63,23 @@ public class CalculadoraTest {
 		int resul = calc.ans();
 		int esper = 5;
 		assertEquals(esper, resul);
+	}
+	
+	@Test
+	public void testDiv() {
+		System.out.println("div()");
+		calc.div(5, 2);
+	}
+	
+	@Test(expected = ArithmeticException.class)
+	public void testDivPorCero() {
+		System.out.println("div() Exception");
+		calc.div(5, 0);
+	}
+
+	@Test(timeout = 100)
+	public void testAlgoritmoOptimo() {
+		calc.operacionOptima();
 	}
 
 }
